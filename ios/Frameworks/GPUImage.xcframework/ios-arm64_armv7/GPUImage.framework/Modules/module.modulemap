@@ -1,6 +1,4 @@
 framework module GPUImage {
-  umbrella header "GPUImageFramework.h"
-
-  export *
-  module * { export * }
+  header "GPUImage-Swift.h"
+  requires objc
 }
