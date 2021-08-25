@@ -1,6 +1,5 @@
 import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
+import 'package:meta/meta.dart';
 import 'package:flutter_gpuimage/src/filters/base_filter.dart';
 import 'package:flutter_gpuimage/src/converter/uint8_list_converter.dart';
 import 'package:json_annotation/json_annotation.dart';

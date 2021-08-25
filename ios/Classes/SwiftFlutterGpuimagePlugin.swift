@@ -15,13 +15,11 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
     
     if call.method == "progressImage" {
         
-        guard let sourceImageData = arguments["sourceImage"] as? FlutterStandardTypedData, let sourceImage = UIImage(data: sourceImageData.data), let filtersJSON = arguments["filters"] as? [[String: Any]] else {
+        guard let sourceImageData = arguments["sourceImage"] as? FlutterStandardTypedData, let sourceImage = UIImage(data: sourceImageData.data), let updatedImage = sourceImage.updateImageOrientationUpSide(), let filtersJSON = arguments["filters"] as? [[String: Any]] else {
             result(nil)
             return
         }
-        
-        let sourceImageSource = PictureInput(image: sourceImage)
-        
+                
         let operationGroup = OperationGroup()
         
         var filters: [BasicOperation] = []
@@ -57,7 +55,7 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
             }
         }
         
-        let resultImage = sourceImage.filterWithOperation(operationGroup)                
+        let resultImage = updatedImage.filterWithOperation(operationGroup)
         
         guard let data = resultImage.jpegData(compressionQuality: 1.0) else {
             result(nil)
