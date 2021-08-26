@@ -1,9 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_gpuimage/flutter_gpuimage.dart';
 
@@ -17,8 +14,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
@@ -40,9 +35,12 @@ class _MyAppState extends State<MyApp> {
             FlatButton(
                 onPressed: () async {
                   final sourceImage =
-                      await rootBundle.load('assets/images/3.jpg');
+                      await rootBundle.load('assets/images/1629819276523.jpg');
+                  // final sourceImage =
+                  //     await rootBundle.load('assets/images/IMG_0945.JPG');
+
                   final lookupImage =
-                      await rootBundle.load('assets/images/lookup.jpg');
+                      await rootBundle.load('assets/images/lookup1.jpg');
                   final lookupFilter = GPUImageLookupFilter(
                       filterImage: lookupImage.buffer.asUint8List());
                   final result = await FlutterGpuimage.progressImage(
