@@ -1,6 +1,6 @@
 import Flutter
 import UIKit
-import GPUImage
+import BBMetalImage
 
 public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -19,45 +19,41 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
             result(nil)
             return
         }
-                
-        let operationGroup = OperationGroup()
         
-        var filters: [BasicOperation] = []
+        var targetImage = updatedImage
         
         for dic in filtersJSON {
             let name = dic["name"] as? String ?? ""
             let data = dic["data"] as? [String: Any] ?? [:]
             if(name == "GPUImageLookupFilter") {
                 let lookupImageData = Data(data["filterImage"] as? [UInt8] ?? [])
-                guard let lookupImage = UIImage(data: lookupImageData) else {
-                    break
+                guard let metalTexture = lookupImageData.bb_metalTexture else {
+                    continue
                 }
-                let lookupImageSource = PictureInput(image: lookupImage)
-                
-                let lookupFilter = LookupFilter()
-                lookupFilter.lookupImage = lookupImageSource
-                
-                filters.append(lookupFilter)
+                guard let resultImage = BBMetalLookupFilter(lookupTable: metalTexture).filteredImage(with: targetImage) else {
+                    continue
+                }
+                targetImage = resultImage
             }
         }
         
-        operationGroup.configureGroup { input, output in
-            for(index, filter) in filters.enumerated() {
-                if index == 0 {
-                    input.addTarget(filter)
-                }
-                if filters.count > 1 {
-                    filters[index - 1].addTarget(filter)
-                }
-                if index == filters.count - 1 {
-                    filter.addTarget(output)
-                }
-            }
-        }
+//        operationGroup.configureGroup { input, output in
+//            for(index, filter) in filters.enumerated() {
+//                if index == 0 {
+//                    input.addTarget(filter)
+//                }
+//                if filters.count > 1 {
+//                    filters[index - 1].addTarget(filter)
+//                }
+//                if index == filters.count - 1 {
+//                    filter.addTarget(output)
+//                }
+//            }
+//        }
         
-        let resultImage = updatedImage.filterWithOperation(operationGroup)
+//        let resultImage = updatedImage.filterWithOperation(operationGroup)
         
-        guard let data = resultImage.jpegData(compressionQuality: 1.0) else {
+        guard let data = targetImage.jpegData(compressionQuality: 1.0) else {
             result(nil)
             return
         }

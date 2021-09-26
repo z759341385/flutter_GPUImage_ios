@@ -23,4 +23,9 @@ class FlutterGpuimage {
     return await _channel.invokeMethod(
         'progressImage', {'sourceImage': sourceImage, 'filters': filtersJSON});
   }
+
+  static Future test(int value)async{
+    return await _channel.invokeMethod(
+        'testMethod', {'value': value});
+  }
 }
