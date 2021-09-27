@@ -53,6 +53,24 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 exposureAdj = ExposureAdjustment()
                 exposureAdj.exposure = value
                 filters.append(exposureAdj)
+            }else if(name == "ContrastAdjustment"){
+                var contrastAdj:ContrastAdjustment!
+                let value = data["value"] as?Float  ?? 1.0
+                contrastAdj = ContrastAdjustment()
+                contrastAdj.contrast = value
+                filters.append(contrastAdj)
+            }else if(name == "SaturationAdjustment"){
+                var saturationAdj:SaturationAdjustment!
+                let value = data["value"] as?Float  ?? 1.0
+                saturationAdj = SaturationAdjustment()
+                saturationAdj.saturation = value
+                filters.append(saturationAdj)
+            }else if(name == "Vibrance"){
+                var vibranceAdj:Vibrance!
+                let value = data["value"] as?Float  ?? 0.0
+                vibranceAdj = Vibrance()
+                vibranceAdj.vibrance = value
+                filters.append(vibranceAdj)
             }
         }
         operationGroup.configureGroup { input, output in
