@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
                   final lookupImage = await rootBundle.load('assets/images/lookup1.jpg');
                   final lookupFilter = GPUImageLookupFilter(filterImage: lookupImage.buffer.asUint8List());
                   // final brightnessAdjustment = BrightnessAdjustment(value: 0);
-                  final exposureAdjustment = Vibrance(value: -1.2);
+                  final exposureAdjustment = RGBAdjustment(red: 0);
                   final result = await FlutterGpuimage.progressImage(
                       sourceImage: sourceImage.buffer.asUint8List(), filters: [lookupFilter, exposureAdjustment]);
                   setState(() {

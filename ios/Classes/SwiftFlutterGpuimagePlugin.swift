@@ -71,6 +71,30 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 vibranceAdj = Vibrance()
                 vibranceAdj.vibrance = value
                 filters.append(vibranceAdj)
+            }else if(name == "Haze"){
+                var hazeAdj:Haze!
+                let distance = data["distance"] as?Float  ?? 0.0
+                let slope = data["slope"] as?Float  ?? 0.0
+                hazeAdj = Haze()
+                hazeAdj.distance = distance
+                hazeAdj.slope = slope
+                filters.append(hazeAdj)
+            }else if(name == "OpacityAdjustment"){
+                var opacityAdj:OpacityAdjustment!
+                let value = data["opacity"] as?Float  ?? 0.0
+                opacityAdj = OpacityAdjustment()
+                opacityAdj.opacity = value
+                filters.append(opacityAdj)
+            }else if(name == "RGBAdjustment"){
+                var rgbAdj:RGBAdjustment!
+                let red = data["red"] as?Float  ?? 0.0
+                let green = data["green"] as?Float  ?? 0.0
+                let blue = data["blue"] as?Float  ?? 0.0
+                rgbAdj = RGBAdjustment()
+                rgbAdj.red = red
+                rgbAdj.green = green
+                rgbAdj.blue = blue
+                filters.append(rgbAdj)
             }
         }
         operationGroup.configureGroup { input, output in
