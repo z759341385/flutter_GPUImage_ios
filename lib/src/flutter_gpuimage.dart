@@ -23,4 +23,18 @@ class FlutterGpuimage {
     return await _channel.invokeMethod(
         'progressImage', {'sourceImage': sourceImage, 'filters': filtersJSON});
   }
+
+  static Future<Uint8List> test(
+      {@required Uint8List sourceImage,
+      @required List<BaseFilter> filters}) async {
+    List<Map<String, dynamic>> filtersJSON = [];
+    filters.forEach((element) {
+      filtersJSON.add(
+          {'name': element.runtimeType.toString(), 'data': element.toJson()});
+    });
+    return await _channel.invokeMethod(
+        'testMethod', {'sourceImage': sourceImage});
+  }
+
+
 }

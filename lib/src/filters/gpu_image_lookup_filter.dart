@@ -21,4 +21,3 @@ class GPUImageLookupFilter extends Object implements BaseFilter {
 
 }
 
-

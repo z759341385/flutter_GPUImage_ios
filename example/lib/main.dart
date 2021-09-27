@@ -14,13 +14,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Uint8List _image;
+  int testValue;
   @override
   void initState() {
     super.initState();
   }
 
-  Uint8List _image;
-
+  getTestValue() {}
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,24 +35,22 @@ class _MyAppState extends State<MyApp> {
           children: [
             FlatButton(
                 onPressed: () async {
-                  final sourceImage =
-                      await rootBundle.load('assets/images/1629819276523.jpg');
+                  final sourceImage = await rootBundle.load('assets/images/1629819276523.jpg');
                   // final sourceImage =
                   //     await rootBundle.load('assets/images/IMG_0945.JPG');
 
-                  final lookupImage =
-                      await rootBundle.load('assets/images/lookup1.jpg');
-                  final lookupFilter = GPUImageLookupFilter(
-                      filterImage: lookupImage.buffer.asUint8List());
+                  final lookupImage = await rootBundle.load('assets/images/lookup1.jpg');
+                  final lookupFilter = GPUImageLookupFilter(filterImage: lookupImage.buffer.asUint8List());
+                  // final brightnessAdjustment = BrightnessAdjustment(value: 0);
+                  final exposureAdjustment = ExposureAdjustment(value: 1);
                   final result = await FlutterGpuimage.progressImage(
-                      sourceImage: sourceImage.buffer.asUint8List(),
-                      filters: [lookupFilter]);
+                      sourceImage: sourceImage.buffer.asUint8List(), filters: [lookupFilter, exposureAdjustment]);
                   setState(() {
                     _image = result;
                   });
                 },
                 child: Text(
-                  '图片',
+                  '图片$testValue',
                   style: TextStyle(color: Colors.purple),
                 )),
             _image == null
