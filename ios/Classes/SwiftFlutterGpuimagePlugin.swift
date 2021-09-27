@@ -12,7 +12,8 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     
     let arguments = call.arguments as? [String: Any] ?? [:]
-    
+   
+
     if call.method == "progressImage" {
         
         guard let sourceImageData = arguments["sourceImage"] as? FlutterStandardTypedData, let sourceImage = UIImage(data: sourceImageData.data), let updatedImage = sourceImage.updateImageOrientationUpSide(), let filtersJSON = arguments["filters"] as? [[String: Any]] else {
@@ -36,17 +37,30 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 
                 let lookupFilter = LookupFilter()
                 lookupFilter.lookupImage = lookupImageSource
-                
                 filters.append(lookupFilter)
+
+               
+            }else if(name == "BrightnessAdjustment"){
+                var brightnessAdj:BrightnessAdjustment!
+                let value = data["value"] as?Float  ?? 0.0
+                brightnessAdj = BrightnessAdjustment()
+                brightnessAdj.brightness = value
+                filters.append(brightnessAdj)
+              
+            }else if(name == "ExposureAdjustment"){
+                var exposureAdj:ExposureAdjustment!
+                let value = data["value"] as?Float  ?? 0.0
+                exposureAdj = ExposureAdjustment()
+                exposureAdj.exposure = value
+                filters.append(exposureAdj)
             }
         }
-        
         operationGroup.configureGroup { input, output in
             for(index, filter) in filters.enumerated() {
                 if index == 0 {
                     input.addTarget(filter)
                 }
-                if filters.count > 1 {
+                if filters.count > 1 && index != 0 {
                     filters[index - 1].addTarget(filter)
                 }
                 if index == filters.count - 1 {
@@ -63,7 +77,7 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
         }
         
         result(FlutterStandardTypedData(bytes: data))
-    } else {
+    }else {
         result("iOS " + UIDevice.current.systemVersion)
     }
   }
