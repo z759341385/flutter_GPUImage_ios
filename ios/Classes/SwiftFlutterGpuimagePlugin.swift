@@ -79,6 +79,14 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 hazeAdj.distance = distance
                 hazeAdj.slope = slope
                 filters.append(hazeAdj)
+            }else if(name == "HighlightsAndShadows"){
+                var highlightsAndShadows:HighlightsAndShadows
+                let shadows = data["shadows"] as?Float  ?? 0.0
+                let highlights = data["highlights"] as?Float  ?? 0.0
+                highlightsAndShadows = HighlightsAndShadows()
+                highlightsAndShadows.shadows = shadows
+                highlightsAndShadows.highlights = highlights
+                filters.append(highlightsAndShadows)
             }else if(name == "OpacityAdjustment"){
                 var opacityAdj:OpacityAdjustment!
                 let value = data["opacity"] as?Float  ?? 0.0
@@ -95,6 +103,28 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 rgbAdj.green = green
                 rgbAdj.blue = blue
                 filters.append(rgbAdj)
+            }else if(name == "Vignette"){
+                var vignette:Vignette!
+                let position_x = data["position_x"] as?Float ?? 0.0
+                let position_y = data["position_y"] as?Float ?? 0.0
+                let color_red = data["color_red"] as?Float ?? 0.0
+                let color_green = data["color_green"] as?Float ?? 0.0
+                let color_blue = data["color_blue"] as?Float ?? 0.0
+                let start = data["start"] as?Float ?? 0.0
+                let end = data["end"] as?Float ?? 0.0
+
+                vignette = Vignette()
+                vignette.center = Position(position_x,position_y)
+                vignette.color = Color(red:color_red,green:color_green,blue:color_blue)
+                vignette.start = start
+                vignette.end = end
+                filters.append(vignette)
+            }else if(name == "GaussianBlur"){
+                var gaussianBlur:GaussianBlur!
+                let blurRadiusInPixels = data["blurRadiusInPixels"] as?Float  ?? 0.0
+                gaussianBlur = GaussianBlur()
+                gaussianBlur.blurRadiusInPixels = blurRadiusInPixels
+                filters.append(gaussianBlur)
             }
         }
         operationGroup.configureGroup { input, output in

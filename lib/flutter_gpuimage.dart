@@ -10,3 +10,4 @@ export 'src/filters/vibrance.dart';
 export 'src/filters/haze.dart';
 export 'src/filters/opacity_adjustment.dart';
 export 'src/filters/rgb_adjustment.dart';
+export 'src/filters/vignette.dart';
