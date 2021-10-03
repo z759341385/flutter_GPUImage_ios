@@ -114,7 +114,7 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 let end = data["end"] as?Float ?? 0.0
 
                 vignette = Vignette()
-                vignette.center = Position(position_x,position_y)
+                vignette.center = Position(1,1)
                 vignette.color = Color(red:color_red,green:color_green,blue:color_blue)
                 vignette.start = start
                 vignette.end = end
