@@ -14,7 +14,7 @@ class FlutterGpuimage {
 
   static Future<Uint8List> progressImage(
       {@required Uint8List sourceImage,
-      @required List<BaseFilter> filters}) async {
+      @required List filters}) async {
     List<Map<String, dynamic>> filtersJSON = [];
     filters.forEach((element) {
       filtersJSON.add(
@@ -26,7 +26,7 @@ class FlutterGpuimage {
 
   static Future<Uint8List> test(
       {@required Uint8List sourceImage,
-      @required List<BaseFilter> filters}) async {
+      @required List filters}) async {
     List<Map<String, dynamic>> filtersJSON = [];
     filters.forEach((element) {
       filtersJSON.add(

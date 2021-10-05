@@ -16,9 +16,92 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Uint8List _image;
   int testValue;
+  Map params = {
+    'status': 0,
+    'isRecommend': 0,
+    'name': 'gold200',
+    'intro': '我是XM1921的简介',
+    'imgPath': 'assets/images/film/gold200.png',
+    'params': {
+      'brightnessAdj': {'brightness': 0.1},
+      'contrastAdj': {'contrast': 1.0},
+      'rgbAdj': {'red': 0.5, 'green': 0.5, 'blue': 0.5},
+      'exposureAdj': {'exposure': 0.1},
+      'gaussianBlur': {'blurRadiusInPixels': 2.0},
+      'hazeAdj': {'distance': 0.1, 'slope': 0.2},
+      'highlightsAndShadows': {'highlights': 0.1, 'shadows': 0.2},
+      'opacityAdj': {'opacity': 0.2},
+      'saturationAdj': {'saturation': 0.2},
+      'vibranceAdj': {'vibrance': 0.2},
+      'vignetteAdj': {'positionX': 0.1, 'positionY': 0.2, 'colorRed': 0.1, 'colorGreen': 0.1, 'colorBlue': 0.1, 'start': 0, 'end': 0.1}
+    }
+  };
+  List baseFilters = [];
+
   @override
   void initState() {
     super.initState();
+    _init(params['params']);
+  }
+
+  _init(Map<String, Map> data) {
+    data.forEach((key, value) {
+      switch (key) {
+        case 'brightnessAdj':
+          final brightnessAdjustment = BrightnessAdjustment(value: value['brightness']);
+          baseFilters.add(brightnessAdjustment);
+          break;
+        case 'contrastAdj':
+          final contrastAdjustment = ContrastAdjustment(value: value['contrast']);
+          baseFilters.add(contrastAdjustment);
+          break;
+        case 'rgbAdj':
+          final rgbAdjustment = RGBAdjustment(red: value['red'], green: value['green'], blue: value['blue']);
+          baseFilters.add(rgbAdjustment);
+          break;
+        case 'exposureAdj':
+          final exposureAdjustment = ExposureAdjustment(value: value['exposure']);
+          baseFilters.add(exposureAdjustment);
+          break;
+        case 'gaussianBlur':
+          final gaussianBlurAdjustment = GaussianBlur(blurRadiusInPixels: value['blurRadiusInPixels']);
+          baseFilters.add(gaussianBlurAdjustment);
+          break;
+        case 'hazeAdj':
+          final hazeAdjustment = Haze(distance: value['distance'], slope: value['slope']);
+          baseFilters.add(hazeAdjustment);
+          break;
+        case 'highlightsAndShadows':
+          final highlightsAndShadows = HighlightsAndShadows(highlights: value['highlights'], shadows: value['shadows']);
+          baseFilters.add(highlightsAndShadows);
+          break;
+        case 'opacityAdj':
+          final opacityAdjustment = OpacityAdjustment(opacity: value['opacity']);
+          baseFilters.add(opacityAdjustment);
+          break;
+        case 'saturationAdj':
+          final saturationAdjustment = SaturationAdjustment(value: value['saturation']);
+          baseFilters.add(saturationAdjustment);
+          break;
+        case 'vibranceAdj':
+          final vibranceAdjustment = Vibrance(value: value['vibrance']);
+          baseFilters.add(vibranceAdjustment);
+          break;
+        case 'vignetteAdj':
+          final vignetteAdjustment = Vignette(
+              positionX: value['positionX'],
+              positionY: value['positionY'],
+              colorRed: value['colorRed'],
+              colorGreen: value['colorGreen'],
+              colorBlue: value['colorBlue'],
+              start: value['start'],
+              end: value['end']);
+          baseFilters.add(vignetteAdjustment);
+          break;
+      }
+    });
+
+    print(baseFilters);
   }
 
   getTestValue() {}
@@ -40,11 +123,22 @@ class _MyAppState extends State<MyApp> {
                   //     await rootBundle.load('assets/images/IMG_0945.JPG');
 
                   final lookupImage = await rootBundle.load('assets/images/lookup1.jpg');
+                  List filters = [];
+                  params['params'].forEach((key, value) {
+                    if (key == 'brightnessAdj') {
+                      final brightnessAdjustment = BrightnessAdjustment(value: value['brightness']);
+                      filters.add(brightnessAdjustment);
+                    } else if (key == 'exposureAdj') {
+                      final exposureAdjustment = ExposureAdjustment(value: value['exposure']);
+                      filters.add(exposureAdjustment);
+                    }
+                  });
+                  print(filters);
                   final lookupFilter = GPUImageLookupFilter(filterImage: lookupImage.buffer.asUint8List());
                   // final brightnessAdjustment = BrightnessAdjustment(value: 0);
-                  final exposureAdjustment = Vignette(positionX: 0.5,positionY: 0.5,start: 0.5,end: 0.75,colorRed: 100,colorBlue: 1,colorGreen: 1);
-                  final result = await FlutterGpuimage.progressImage(
-                      sourceImage: sourceImage.buffer.asUint8List(), filters: [lookupFilter, exposureAdjustment]);
+                  final exposureAdjustment = Vignette(positionX: -1, positionY: 1, start: 0.5, end: 0.75);
+                  final result =
+                      await FlutterGpuimage.progressImage(sourceImage: sourceImage.buffer.asUint8List(), filters: baseFilters);
                   setState(() {
                     _image = result;
                   });
