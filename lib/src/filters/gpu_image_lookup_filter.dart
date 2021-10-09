@@ -13,7 +13,7 @@ class GPUImageLookupFilter extends Object implements BaseFilter {
   @Uint8ListConverter()
   Uint8List filterImage;
 
-  GPUImageLookupFilter({ @required this.filterImage,});
+  GPUImageLookupFilter({ required this.filterImage,});
 
   factory GPUImageLookupFilter.fromJson(Map<String, dynamic> srcJson) => _$GPUImageLookupFilterFromJson(srcJson);
 

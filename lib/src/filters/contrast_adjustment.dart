@@ -9,7 +9,7 @@ class ContrastAdjustment  extends Object implements BaseFilter {
 
   ///[contrast] 对比度  The adjusted contrast (0.0 - 4.0, with 1.0 as the default)
   ContrastAdjustment({
-   @required this.value});
+   required this.value});
   factory ContrastAdjustment.fromJson(Map<String, dynamic> srcJson) => _$ContrastAdjustmentFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$ContrastAdjustmentToJson(this);

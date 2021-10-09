@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
       'opacityAdj': {'opacity': 0.2},
       'saturationAdj': {'saturation': 0.2},
       'vibranceAdj': {'vibrance': 0.2},
-      'vignetteAdj': {'positionX': 0.1, 'positionY': 0.2, 'colorRed': 0.1, 'colorGreen': 0.1, 'colorBlue': 0.1, 'start': 0, 'end': 0.1}
+      'vignetteAdj': {'positionX': 0.1, 'positionY': 0.2, 'colorRed': 0.1, 'colorGreen': 0.1, 'colorBlue': 0.1, 'start': 0.0, 'end': 0.1}
     }
   };
   List baseFilters = [];
@@ -133,12 +133,13 @@ class _MyAppState extends State<MyApp> {
                       filters.add(exposureAdjustment);
                     }
                   });
-                  print(filters);
                   final lookupFilter = GPUImageLookupFilter(filterImage: lookupImage.buffer.asUint8List());
-                  // final brightnessAdjustment = BrightnessAdjustment(value: 0);
-                  final exposureAdjustment = Vignette(positionX: -1, positionY: 1, start: 0.5, end: 0.75);
-                  final result =
-                      await FlutterGpuimage.progressImage(sourceImage: sourceImage.buffer.asUint8List(), filters: baseFilters);
+                  final brightnessAdjustment = BrightnessAdjustment(value: 0);
+                  final gaussianBlur =  GaussianBlur(blurRadiusInPixels: 12.0);
+                  // final exposureAdjustment = Vignette(positionX: -1.0, positionY: 1.0, start: 0.5, end: 0.75);
+                  final res = await FlutterGpuimage.progressImage(sourceImage: lookupImage.buffer.asUint8List(), filters: [gaussianBlur]);
+                  final overlayBlend = OverlayBlend(blendImage: res);
+                  final result = await FlutterGpuimage.progressImage(sourceImage: sourceImage.buffer.asUint8List(), filters: [overlayBlend]);
                   setState(() {
                     _image = result;
                   });
@@ -155,8 +156,8 @@ class _MyAppState extends State<MyApp> {
                   )
                 : Image.memory(
                     _image,
-                    width: 200,
-                    height: 200,
+                    width: 300,
+                    height: 400,
                   ),
           ],
         ),

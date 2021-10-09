@@ -34,12 +34,9 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                     break
                 }
                 let lookupImageSource = PictureInput(image: lookupImage)
-                
                 let lookupFilter = LookupFilter()
                 lookupFilter.lookupImage = lookupImageSource
                 filters.append(lookupFilter)
-
-               
             }else if(name == "BrightnessAdjustment"){
                 var brightnessAdj:BrightnessAdjustment!
                 let value = data["value"] as?Float  ?? 0.0
@@ -114,7 +111,7 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 let end = data["end"] as?Float ?? 0.0
 
                 vignette = Vignette()
-                vignette.center = Position(1,1)
+                vignette.center = Position(position_x,position_y)
                 vignette.color = Color(red:color_red,green:color_green,blue:color_blue)
                 vignette.start = start
                 vignette.end = end
@@ -125,6 +122,46 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 gaussianBlur = GaussianBlur()
                 gaussianBlur.blurRadiusInPixels = blurRadiusInPixels
                 filters.append(gaussianBlur)
+            }else if(name == "OverlayBlend"){
+             let blendImageData = Data(data["blendImage"] as? [UInt8] ?? [])
+                guard let blendImage = UIImage(data: blendImageData) else {
+                    continue
+                }
+                let blendImageSource = PictureInput(image: blendImage)
+                let filter = OverlayBlend()
+                blendImageSource.addTarget(filter)
+                blendImageSource.processImage()
+                filters.append(filter)
+            }else if(name == "LightenBlend"){
+                let blendImageData = Data(data["blendImage"] as? [UInt8] ?? [])
+                guard let blendImage = UIImage(data: blendImageData) else {
+                    continue
+                }
+                let blendImageSource = PictureInput(image: blendImage)
+                let filter = LightenBlend()
+                blendImageSource.addTarget(filter)
+                blendImageSource.processImage()
+                filters.append(filter)
+            }else if(name == "SubtractBlend"){
+                let blendImageData = Data(data["blendImage"] as? [UInt8] ?? [])
+                guard let blendImage = UIImage(data: blendImageData) else {
+                    continue
+                }
+                let blendImageSource = PictureInput(image: blendImage)
+                let filter = SubtractBlend()
+                blendImageSource.addTarget(filter)
+                blendImageSource.processImage()
+                filters.append(filter)
+            }else if(name == "ScreenBlend"){
+                let blendImageData = Data(data["blendImage"] as? [UInt8] ?? [])
+                guard let blendImage = UIImage(data: blendImageData) else {
+                    continue
+                }
+                let blendImageSource = PictureInput(image: blendImage)
+                let filter = ScreenBlend()
+                blendImageSource.addTarget(filter)
+                blendImageSource.processImage()
+                filters.append(filter)
             }
         }
         operationGroup.configureGroup { input, output in
@@ -149,6 +186,8 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
         }
         
         result(FlutterStandardTypedData(bytes: data))
+    }else if(call.method == "testMethod"){
+     
     }else {
         result("iOS " + UIDevice.current.systemVersion)
     }

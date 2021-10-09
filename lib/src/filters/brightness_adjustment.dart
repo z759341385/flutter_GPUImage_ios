@@ -9,7 +9,7 @@ class BrightnessAdjustment  extends Object implements BaseFilter {
 
   ///[brightness] 亮度 The adjusted brightness (-1.0 - 1.0, with 0.0 as the default)
   BrightnessAdjustment({
-    @required  this.value});
+    required  this.value});
   factory BrightnessAdjustment.fromJson(Map<String, dynamic> srcJson) => _$BrightnessAdjustmentFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$BrightnessAdjustmentToJson(this);

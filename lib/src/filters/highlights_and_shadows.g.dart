@@ -6,12 +6,12 @@ part of 'highlights_and_shadows.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HighlightsAndShadows _$HighlightsAndShadowsFromJson(Map<String, dynamic> json) {
-  return HighlightsAndShadows(
-    shadows: (json['shadows'] as num)?.toDouble(),
-    highlights: (json['highlights'] as num)?.toDouble(),
-  );
-}
+HighlightsAndShadows _$HighlightsAndShadowsFromJson(
+        Map<String, dynamic> json) =>
+    HighlightsAndShadows(
+      shadows: (json['shadows'] as num?)?.toDouble() ?? 0.0,
+      highlights: (json['highlights'] as num?)?.toDouble() ?? 1.0,
+    );
 
 Map<String, dynamic> _$HighlightsAndShadowsToJson(
         HighlightsAndShadows instance) =>

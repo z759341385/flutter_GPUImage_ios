@@ -6,11 +6,10 @@ part of 'contrast_adjustment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ContrastAdjustment _$ContrastAdjustmentFromJson(Map<String, dynamic> json) {
-  return ContrastAdjustment(
-    value: (json['value'] as num)?.toDouble(),
-  );
-}
+ContrastAdjustment _$ContrastAdjustmentFromJson(Map<String, dynamic> json) =>
+    ContrastAdjustment(
+      value: (json['value'] as num).toDouble(),
+    );
 
 Map<String, dynamic> _$ContrastAdjustmentToJson(ContrastAdjustment instance) =>
     <String, dynamic>{

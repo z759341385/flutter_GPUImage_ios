@@ -9,7 +9,7 @@ class ExposureAdjustment  extends Object implements BaseFilter {
 
   ///[exposure] 曝光 The adjusted exposure (-10.0 - 10.0, with 0.0 as the default)
   ExposureAdjustment({
-  @required  this.value});
+  required  this.value});
   factory ExposureAdjustment.fromJson(Map<String, dynamic> srcJson) => _$ExposureAdjustmentFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$ExposureAdjustmentToJson(this);

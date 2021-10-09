@@ -13,3 +13,4 @@ export 'src/filters/rgb_adjustment.dart';
 export 'src/filters/vignette.dart';
 export 'src/filters/gaussianBlur.dart';
 export 'src/filters/highlights_and_shadows.dart';
+export 'src/filters/overlay_blend.dart';

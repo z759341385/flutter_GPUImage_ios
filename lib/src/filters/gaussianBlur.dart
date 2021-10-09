@@ -9,7 +9,7 @@ class GaussianBlur  extends Object implements BaseFilter {
 
   ///[blurRadiusInPixels] 高斯模糊  blurRadiusInPixels: A radius in pixels to use for the blur, with a default of 2.0. This adjusts the sigma variable in the Gaussian distribution function.
   GaussianBlur({
-    @required this.blurRadiusInPixels});
+    required this.blurRadiusInPixels});
   factory GaussianBlur.fromJson(Map<String, dynamic> srcJson) => _$GaussianBlurFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$GaussianBlurToJson(this);
