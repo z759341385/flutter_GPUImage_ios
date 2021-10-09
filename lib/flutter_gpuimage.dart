@@ -14,3 +14,6 @@ export 'src/filters/vignette.dart';
 export 'src/filters/gaussianBlur.dart';
 export 'src/filters/highlights_and_shadows.dart';
 export 'src/filters/overlay_blend.dart';
+export 'src/filters/lighten_blend.dart';
+export 'src/filters/subtract_blend.dart';
+export 'src/filters/screen_blend.dart';
