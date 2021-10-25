@@ -102,8 +102,8 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 filters.append(rgbAdj)
             }else if(name == "Vignette"){
                 var vignette:Vignette!
-                let position_x = data["position_x"] as?Float ?? 0.0
-                let position_y = data["position_y"] as?Float ?? 0.0
+                let position_x = data["position_x"] as?Float ?? 0.5
+                let position_y = data["position_y"] as?Float ?? 0.5
                 let color_red = data["color_red"] as?Float ?? 0.0
                 let color_green = data["color_green"] as?Float ?? 0.0
                 let color_blue = data["color_blue"] as?Float ?? 0.0
