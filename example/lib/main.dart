@@ -14,8 +14,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Uint8List _image;
-  int testValue;
+  late Uint8List _image;
+  late int testValue;
   Map params = {
     'status': 0,
     'isRecommend': 0,
