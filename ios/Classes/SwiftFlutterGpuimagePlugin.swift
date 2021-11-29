@@ -138,13 +138,16 @@ public class SwiftFlutterGpuimagePlugin: NSObject, FlutterPlugin {
                 gaussianBlur.blurRadiusInPixels = blurRadiusInPixels
                 filters.append(gaussianBlur)
             }else if(name == "OverlayBlend"){
-             let blendImageData = Data(data["blendImage"] as? [UInt8] ?? [])
-                guard let blendImage = UIImage(data: blendImageData) else {
-                    continue
-                }
+                let blendImageData = Data(data["blendImage"] as? [UInt8] ?? [])
+                guard let blendImage = UIImage(data: blendImageData) else { continue }
+                UIGraphicsBeginImageContextWithOptions(CGSize(width: blendImage.size.width, height: blendImage.size.height),
+                        false, 1)
+                blendImage.draw(in: CGRect(origin: .zero, size: blendImage.size))
+                guard let fixedBlendImage = UIGraphicsGetImageFromCurrentImageContext() else { continue }
+                UIGraphicsEndImageContext()
                 do{
                     let blendImageSource:PictureInput
-                   try blendImageSource = PictureInput(image: blendImage)
+                    try blendImageSource = PictureInput(image: fixedBlendImage)
                     let filter = OverlayBlend()
                     blendImageSource.addTarget(filter)
                     blendImageSource.processImage()
